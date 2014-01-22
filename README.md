@@ -1,1 +1,1 @@
-Reverse it for the work!
+Simulation of Software project based on POM3.
