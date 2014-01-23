@@ -1,0 +1,14 @@
+class product backlog:
+      fetch stories()
+      complete
+      few methods()
+
+
+class user stories:
+      +status -- open, progress, closed
+      +priority -- min < max random
+      +cost -- min < max random 
+      +value -- min < max random
+      +estimate size -- random
+      +teams -- allocated in pom3_teams.py
+      

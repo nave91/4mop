@@ -61,9 +61,9 @@ class pom3_teams:
                 task.val.cost = task.val.cost * (team.decisions.criticality_modifier ** team.decisions.criticality) # cost' = cost * X^criticality    
         
         #Print Out of Teams & Requirements
-        """  
+          
         for i,team in enumerate(p3t.teams): 
             print "___________________TEAM #" + str(i) + "______________________"
             for e,task in enumerate(team.tasks):
                 print "> TASK #" + str(e) + ": " + str(task)
-        """
+        

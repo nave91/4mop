@@ -106,8 +106,8 @@ class pom3:
         
 
 # Test Code 
-#p3 = pom3()
-#print p3.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
+p3 = pom3()
+print p3.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
 
  
            
