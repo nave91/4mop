@@ -1,31 +1,32 @@
-"""##############################################################################
-   ### -@author: Joseph Krall
-   ### -@note: POM3 Requirements Tree Module
-   ### -@note: This work done in affiliation with the West Virginia University
-   ### -@contact: kralljoe@gmail.com
-   ### -@copyright: This work is made for academic research.  Do not edit without
-   ### -@copyright: citing POM3 as a reference.
-   ##############################################################################"""
+"""#################################################################
+   #### 
+   #### -@author: Naveen Kumar Lekkalapudi
+   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: This work is done in affilication with  
+   #### -@note: West Virginia University
+   #### -@contact: nalekkalapudi@mix.wvu.edu
+   #### -@copyright: This work is made for academic research. 
+   #### -@copyright: Do not edit without citing POM4 as a reference.
+   #### -@reference: POM3
+   ####
+   ##################################################################"""
 
-class Requirement(object):
-
+class Userstory(object):
+    
     def __init__(self, c, v):
-        #cost of the task
+        
+        #cost of the userstory
         self.cost = c
         
-        #value of the task (priority)
+        #value of the userstory
         self.value = v
         
-        #if the task is done or not
-        self.done = False
-        
-        #if the task is visible (invisible tasks technically have not been planned at all by project leaders)
+        #if the task is visible
         self.visible = False
-    
-    def __repr__(self): return "Done? " + str(self.done) + ".  (Cost: " + str(self.cost) + ", Value: " + str(self.value) + ")"
+        
+    def __repr__(self): return "User Story. Cost: " + str(self.cost) + ", Value: " + str(self.value) + ")"
 
-
-class requirements_node(object):
+class userstories_node(object):
     def __init__(self, v, k, p=None, c=[], l=0):
         self.val = v
         self.key = k
@@ -35,14 +36,15 @@ class requirements_node(object):
         self.dependencies = []
         
     def add_child(self, v, k, l):
-        self.children.append(requirements_node(v, k, self, [], l))
-        
+        self.children.append(userstories_node(v, k, self, [], l))
+    
     def __repr__(self):
         if self.parent:
-            return (" "*self.level + "{Key: " + self.key + ", Val: " + str(self.val) + ", ParentKey = " + self.parent.key + " Dep: " + str(self.dependencies) + "}")
-        else: 
-            return (" "*self.level + "{Key: " + self.key + ", Val: " + str(self.val) + ", ParentKey = None" + " Dep: " + str(self.dependencies) + "}")
+            return ("-"*self.level + "{Key: " + str(self.key) + ", Val: " + str(self.val) + ", ParentKey = " + self.parent.key + " Dep: "+str(self.dependencies) + "}")
+        else:
+            return ("-"*self.level + "{Key: " + self.key + ", Val: " + str(self.val) + ", ParentKey = None" + " Dep: " + str(self.dependencies) + "}")
 
+        
     def show(self):
         print(self)
         for child in self.children:
@@ -54,7 +56,7 @@ class requirements_node(object):
             else:
                 result = child.iterative_search(k)
                 if result: return result
-                
+    
     def max_depth(self):
         max = 0
         for child in self.children:
@@ -71,17 +73,19 @@ class requirements_node(object):
             for i in to_add:
                 list.append(i)
         return list
-            
-            
-        
-class requirements_tree(object):
+    
+class userstories_tree(object):
+    
     def __init__(self):
         self.tree = []
+    
     def add_root(self, v, k):
-        self.tree.append(requirements_node(v, k, None, [], 0))
+        self.tree.append(userstories_node(v, k, None, [], 0))
+    
     def get_root(self, k):
         for root in self.tree:
             if root.key == k: return root
+    
     def find_node(self, k):
         for root in self.tree:
             if root.key == k: return root
@@ -110,3 +114,4 @@ class requirements_tree(object):
     def show(self):
         for root in self.tree:
             root.show()
+
