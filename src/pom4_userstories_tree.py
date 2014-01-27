@@ -13,7 +13,7 @@
 
 class Userstory(object):
     
-    def __init__(self, c, v):
+    def __init__(self, c, v, s):
         
         #cost of the userstory
         self.cost = c
@@ -21,10 +21,17 @@ class Userstory(object):
         #value of the userstory
         self.value = v
         
+        #estimate of the userstory in days
+        self.estimate = s
+        
+        #value if its done
+        self.done = False
+
         #if the task is visible
         self.visible = False
         
-    def __repr__(self): return "User Story. Cost: " + str(self.cost) + ", Value: " + str(self.value) + ")"
+    def __repr__(self): 
+        return "(User Story. Cost: " + str(self.cost) + ", Value: " + str(self.value) + ", Estimate: " + str(self.estimate) + ")"
 
 class userstories_node(object):
     def __init__(self, v, k, p=None, c=[], l=0):

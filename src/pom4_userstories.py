@@ -16,6 +16,7 @@ import random
 
 def random_cost(): return random.randint(1, 100)
 def random_value(): return random.randint(1, 100)
+def random_estimate(): return random.randint(1, 30) #upto sprint length
 
 class pom4_userstories:
     
@@ -25,7 +26,7 @@ class pom4_userstories:
         userstories.decisions = decisions
         
         for i in range(userstories.count):
-            userstories.heap.add_root(Userstory((decisions.size+1)*random_cost(), random_value()), 'Base UsrStry #' + str('%.3d'%(i+1)))
+            userstories.heap.add_root(Userstory((decisions.size+1)*random_cost(), random_value(), random_estimate()), 'Base UsrStry #' + str('%.3d'%(i+1)))
             
             parent = userstories.heap.tree[i]
             userstories.recursive_adder(parent, 1)
@@ -39,15 +40,21 @@ class pom4_userstories:
                 if ((i+1) < len(userstories.heap.tree)):
                     req_node = userstories.heap.tree[i+1]
                     adderDie = random.randint(1,100)
-                    if adderDie <= decisions.interdependency: userstories.add_dependency(userstories.heap.tree[i], req_node)
+                    if adderDie <= decisions.interdependency: 
+                        userstories.add_dependency(userstories.heap.tree[i], req_node)
             userstories.recursive_dep_adder(userstories.heap.tree[i], i, 1)
             
         #linearize the list
         userstories.tasks = userstories.heap.traverse()
+        
+        #testing
+        for i in userstories.tasks:
+            print i.val.estimate
+
 
     def add_children(self, num, parent, level):
         for c in range(num):
-            parent.add_child(Userstory(random_cost(), random_value()),
+            parent.add_child(Userstory(random_cost(), random_value(), random_estimate()),
                              "+"*level + 'Child-' + parent.key[0]
                              + parent.key[len(parent.key)-3]
                              + parent.key[len(parent.key)-2]

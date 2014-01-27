@@ -43,8 +43,6 @@ class pom4:
         
         POM4_USERSTORIES = pom4_userstories(POM4_DECISIONS)
         
-        for i in POM4_USERSTORIES.tasks:
-            print i
     
 
 # Test Code 
