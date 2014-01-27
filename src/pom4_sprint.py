@@ -24,10 +24,27 @@ class Sprint(object):
         #Time under development
         self.time = 0
         
-    def add_task(self,stasks):
-        self.us.append(stasks.val)
-        self.time += stasks.val.estimate
+        #Total Cost of whole Sprint
+        self.cost = 0
         
-    def time(self): return self.time
+        #Total Value of whole Sprint
+        self.value = 0
+        
+    def __repr__(self):
+        string = ""
+        for i in self.us:
+            string += (str(i.val)+",")
+        string += "$"
+        return string
+
+    def add_task(self,tasks):
+        if tasks != None: self.us.append(tasks)
+        self.time += tasks.val.estimate
+        self.cost += tasks.val.cost
+        self.value += tasks.val.value
+        
+    def markTasksVisible(self,visible):
+        for i in range((int)(visible*len(self.us))):
+            self.us[i].val.visible = True
     
     

@@ -1,13 +1,18 @@
 import math, random
+from pom4_sprints import *
 
-"""##############################################################################
-   ### -@author: Joseph Krall
-   ### -@note: POM3 Team Management Module
-   ### -@note: This work done in affiliation with the West Virginia University
-   ### -@contact: kralljoe@gmail.com
-   ### -@copyright: This work is made for academic research.  Do not edit without
-   ### -@copyright: citing POM3 as a reference.
-   ##############################################################################"""
+"""#################################################################
+   #### 
+   #### -@author: Naveen Kumar Lekkalapudi
+   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: This work is done in affilication with  
+   #### -@note: West Virginia University
+   #### -@contact: nalekkalapudi@mix.wvu.edu
+   #### -@copyright: This work is made for academic research. 
+   #### -@copyright: Do not edit without citing POM4 as a reference.
+   #### -@reference: POM3
+   ####
+   ##################################################################"""
 
 MAX_VALUE = 1500
 
@@ -27,37 +32,44 @@ class Team(object):
         self.numCompletedTasks = 0
         self.budget = 0
         self.tasks = []
-        
-    def calcTotalCost(self):
-        total = 0
-        for task in self.tasks:
-            total+= task.val.cost
-        return total
+        self.sprint = Sprint()
+
+    def getsprint(self,sprint):
+        self.sprint = sprint
+        for userstory in sprint.us:
+            self.tasks.append(userstory)
+    
+    def getnewsprint(self, pom4_teams, sprints):
+        index = pom4_teams.index
+        self.getsprint(sprints.collection[index])
+        index += 1
+        pom4_teams.index = index
+
+    def TotalCost(self):
+        return self.sprint.cost
     
     def setPolicy(self, policyInt):
         self.plan = policyInt
         
     def markTasksVisible(self):
         if (self.visible > 1.0): self.visible = 1.0
-        for i in range((int)(self.visible*len(self.tasks))):
-            self.tasks[i].val.visible = True
-            
-        
+        self.sprint.markTasksVisible(self.visible)        
         
     def updateBudget(team, numShuffles):
-        totalCost = team.calcTotalCost()
+        totalCost = team.TotalCost()
         team.budget += (totalCost/numShuffles)
+        print "Total Budget:",team.budget
         
-    def collectAvailableTasks(team, requirements):
+    def collectAvailableTasks(team, userstories):
         team.availableTasks = []
-        for task in team.tasks:
-            if task.val.visible == True:
+        for userstory in team.sprint.us:
+            if userstory.val.visible == True:
                 #if no dependencies and no children on this task, then add to availableTasks list
-                if countNotDones(requirements.heap.find_node(task.key).children) == 0:
-                    if task.val.done == False:
-                        team.availableTasks.append(task)
+                if countNotDones(userstories.heap.find_node(task.key).children) == 0:
+                    if userstory.val.done == False:
+                        team.availableTasks.append(userstory)
         team.numAvailableTasks += len(team.availableTasks)
-        
+        print "Number of available tasks:",team.numAvailableTasks
     
     def applySortingStrategy(team):
         
@@ -76,22 +88,23 @@ class Team(object):
         elif team.plan == 5: team.availableTasks.sort(key=lambda cv: cv.val.cost/cv.val.value, reverse=True)
     
     def executeAvailableTasks(team): 
-        for task in team.availableTasks:
-            if (team.budget - task.val.cost) >= 0:
-                team.budget -= task.val.cost
-                team.cost_total  += task.val.cost
-                team.value_total += task.val.value
-                task.val.done = True
+        for userstory in team.availableTasks:
+            if (team.budget - userstory.val.cost) >= 0:
+                team.budget -= userstory.val.cost
+                team.cost_total  += userstory.val.cost
+                team.value_total += userstory.val.value
+                userstory.val.done = True
                 team.numCompletedTasks += 1
+                print "Executed"
                 
     def discoverNewTasks(team):
         team.known += nextTime(team.decisions.dynamism/10.0)
 
     def updateTasks(team):
         #Adjust values
-        for task in team.tasks:
+        for userstory in team.sprint.us:
             change = (random.uniform(0, team.decisions.dynamism) - team.decisions.dynamism/2)*team.decisions.culture/100.0
-            task.val.value += (MAX_VALUE * max(0,change))  
+            userstory.val.value += (MAX_VALUE * max(0,change))  
 
 def nextTime(rateParameter): return -math.log(1.0 - random.random()) / rateParameter                        
 def countNotDones(list):

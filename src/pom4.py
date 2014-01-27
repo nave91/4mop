@@ -1,4 +1,6 @@
 from pom4_userstories import *
+from pom4_sprints import *
+from pom4_teams import *
 import random
 
 """#################################################################
@@ -43,7 +45,36 @@ class pom4:
         
         POM4_USERSTORIES = pom4_userstories(POM4_DECISIONS)
         
-    
+        # # # # # # # # # # # 
+        # 2) Build Sprints  #
+        # # # # # # # # # # #
+        
+        POM4_SPRINTS = pom4_sprints(POM4_USERSTORIES)
+
+        # # # # # # # # # # # #
+        # 2) Initialize teams #
+        # # # # # # # # # # # #
+        
+        POM4_TEAMS = pom4_teams(POM4_SPRINTS, POM4_DECISIONS)
+        
+        # # # # # # # #
+        # 3) Shuffle  #
+        # # # # # # # #
+        
+        
+        for shufflingIteration in range(numberOfShuffles):
+            
+            for team in POM4_TEAMS.teams:
+                team.updateBudget(numberOfShuffles)
+                team.collectAvailableTasks(POM4_USERSTORIES)
+                team.applySortingStrategy()
+                team.executeAvailableTasks()
+                team.getnewsprint(POM4_TEAMS,POM4_SPRINTS)
+                team.discoverNewTasks()
+                team.updateTasks()
+            
+        
+
 
 # Test Code 
 p4 = pom4()

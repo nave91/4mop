@@ -48,8 +48,8 @@ class pom4_userstories:
         userstories.tasks = userstories.heap.traverse()
         
         #testing
-        for i in userstories.tasks:
-            print i.val.estimate
+        #for i in userstories.tasks:
+        #    print i.val.estimate
 
 
     def add_children(self, num, parent, level):

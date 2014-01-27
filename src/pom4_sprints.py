@@ -15,22 +15,69 @@ from pom4_sprint import *
 
 class pom4_sprints(object):
     
-    def __init__(sprints,Sprint):
+    def __init__(sprints,userstories):
         
         #List of sprints
         sprints.collection = []
+
+        #Number of sprints
+        sprints.numofsprints = 0
         
         #List of tasks
-        sprints.stasks = []
+        sprints.tasks = []
         
+        #Number of tasks
+        sprints.numoftasks = []
+
+        #collecting stasks from tasks
+        sprints.collecttasks(userstories.tasks)
+        
+        #Building sprints
+        sprints.buildsprints()
+        
+        #Show sprints
+        print "######Showing"
+        """for i in sprints.collection:
+            print i
+            print i.time
+            print i.value
+            print i.cost
+            print """""
+        
+    def __repr__(sprints):
+        string = ""
+        for i in sprints.collection:
+            string += (str(i)+"\n######")
+        return string
+    
     def collecttasks(sprints,tasks):
-        sprints.stasks = tasks
+        sprints.tasks = tasks
+        sprints.numoftasks = len(tasks)
 
     def addsprint(sprints,Sprint):
         sprints.collection.append(Sprint)
+        sprints.numofsprints = len(sprints.collection)
         
+    
     def buildsprints(sprints):
-        pass
+        length = len(sprints.tasks)
+        print length,"length of staks"
+        print "########Building"
+        i=0
+        while i < (((length/3)*3)-2):
+            sprint = Sprint()
+            sprint.add_task(sprints.tasks[i])
+            sprint.add_task(sprints.tasks[i+1])
+            sprint.add_task(sprints.tasks[i+2])
+            sprints.addsprint(sprint)
+            i += 3
+        sprint =Sprint()    
+        for j in range(0,length%3):
+            sprint.add_task(sprints.tasks[i])
+            i += 1
+        sprints.addsprint(sprint)
+        
+    
     
     def func_name(stasks,item,alist):
         if stasks:

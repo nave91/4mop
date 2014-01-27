@@ -62,8 +62,8 @@ class pom3_teams:
         
         #Print Out of Teams & Requirements
           
-        for i,team in enumerate(p3t.teams): 
+        """for i,team in enumerate(p3t.teams): 
             print "___________________TEAM #" + str(i) + "______________________"
             for e,task in enumerate(team.tasks):
-                print "> TASK #" + str(e) + ": " + str(task)
+                print "> TASK #" + str(e) + ": " + str(task)"""
         
