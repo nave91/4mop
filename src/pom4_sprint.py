@@ -44,7 +44,7 @@ class Sprint(object):
         self.value += tasks.val.value
         
     def markTasksVisible(self,visible):
-        for i in range((int)(visible*len(self.us))):
+        for i in range(len(self.us)):
             self.us[i].val.visible = True
     
     

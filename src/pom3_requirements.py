@@ -37,9 +37,7 @@ class pom3_requirements:
                     req_node = requirements.heap.tree[i+1]
                     adderDie = random.randint(1,100)
                     if adderDie <= decisions.interdependency: requirements.add_dependency(requirements.heap.tree[i], req_node)    
-            requirements.recursive_dep_adder(requirements.heap.tree[i], i, 1)
-        
-        
+            requirements.recursive_dep_adder(requirements.heap.tree[i], i, 1)        
         #linearize the list
         requirements.tasks = requirements.heap.traverse()
 

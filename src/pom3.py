@@ -89,6 +89,7 @@ class pom3:
         if god_frontier == 0.0: score = 0.0
         else: score        =  our_frontier / god_frontier
         
+        #print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
         if completion_sum == 0: cost = 0
         else: cost = cost_sum/completion_sum
         

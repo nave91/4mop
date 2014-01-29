@@ -36,7 +36,6 @@ class pom4_sprints(object):
         sprints.buildsprints()
         
         #Show sprints
-        print "######Showing"
         """for i in sprints.collection:
             print i
             print i.time
@@ -61,8 +60,6 @@ class pom4_sprints(object):
     
     def buildsprints(sprints):
         length = len(sprints.tasks)
-        print length,"length of staks"
-        print "########Building"
         i=0
         while i < (((length/3)*3)-2):
             sprint = Sprint()

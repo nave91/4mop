@@ -32,13 +32,13 @@ class Team(object):
         total = 0
         for task in self.tasks:
             total+= task.val.cost
+        #print total
         return total
     
     def setPolicy(self, policyInt):
         self.plan = policyInt
         
     def markTasksVisible(self):
-        if (self.visible > 1.0): self.visible = 1.0
         for i in range((int)(self.visible*len(self.tasks))):
             self.tasks[i].val.visible = True        
         

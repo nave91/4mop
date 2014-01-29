@@ -33,6 +33,7 @@ class Team(object):
         self.budget = 0
         self.tasks = []
         self.sprint = Sprint()
+        self.task_cost_total = 0
 
     def getsprint(self,sprint):
         self.sprint = sprint
@@ -41,35 +42,40 @@ class Team(object):
     
     def getnewsprint(self, pom4_teams, sprints):
         index = pom4_teams.index
-        self.getsprint(sprints.collection[index])
-        index += 1
-        pom4_teams.index = index
+        if index < len(sprints.collection): 
+            self.getsprint(sprints.collection[index])
+            index += 1
+            pom4_teams.index = index
 
     def TotalCost(self):
-        return self.sprint.cost
+        self.task_cost_total += self.sprint.cost
+        #print self.task_cost_total
+        return self.task_cost_total
     
     def setPolicy(self, policyInt):
         self.plan = policyInt
         
     def markTasksVisible(self):
         if (self.visible > 1.0): self.visible = 1.0
-        self.sprint.markTasksVisible(self.visible)        
+        self.sprint.markTasksVisible(self.visible)
+        for task in self.tasks:
+            task.val.visible = True
         
     def updateBudget(team, numShuffles):
         totalCost = team.TotalCost()
         team.budget += (totalCost/numShuffles)
-        print "Total Budget:",team.budget
+        #print "Total Budget:",team.budget
         
     def collectAvailableTasks(team, userstories):
         team.availableTasks = []
         for userstory in team.sprint.us:
             if userstory.val.visible == True:
                 #if no dependencies and no children on this task, then add to availableTasks list
-                if countNotDones(userstories.heap.find_node(task.key).children) == 0:
+                if countNotDones(userstories.heap.find_node(userstory.key).children) == 0:
                     if userstory.val.done == False:
                         team.availableTasks.append(userstory)
         team.numAvailableTasks += len(team.availableTasks)
-        print "Number of available tasks:",team.numAvailableTasks
+        #print "Number of available tasks:",team.numAvailableTasks
     
     def applySortingStrategy(team):
         
@@ -95,7 +101,7 @@ class Team(object):
                 team.value_total += userstory.val.value
                 userstory.val.done = True
                 team.numCompletedTasks += 1
-                print "Executed"
+                team.tasks.append(userstory)
                 
     def discoverNewTasks(team):
         team.known += nextTime(team.decisions.dynamism/10.0)
