@@ -92,7 +92,6 @@ class Team(object):
     def executeAvailableTasks(team): 
         for userstory in team.availableTasks:
             if (team.budget - userstory.val.cost) >= 0:
-                print "##Executing"
                 team.budget -= userstory.val.cost
                 team.cost_total  += userstory.val.cost
                 team.value_total += userstory.val.value
