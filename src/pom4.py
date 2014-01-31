@@ -63,14 +63,21 @@ class pom4:
         
         
         for shufflingIteration in range(numberOfShuffles):
+            print "#####Shuffling"
             for team in POM4_TEAMS.teams:
+                print "#For each team"
                 team.updateBudget(numberOfShuffles)
                 team.collectAvailableTasks(POM4_USERSTORIES)
                 team.applySortingStrategy()
                 team.executeAvailableTasks()
-                team.discoverNewTasks()
+#                team.discoverNewTasks()
                 team.updateTasks()
                 team.getnewsprint(POM4_TEAMS,POM4_SPRINTS)
+
+        """for i,team in enumerate(POM4_TEAMS.teams): 
+            print "___________________TEAM #" + str(i) + "______________________"
+            for e,us in enumerate(team.tasksrepo):
+                print "> USRSTORY #" + str(e) + ": " + str(us)"""
 
 
         # # # # # # # # # # # # #
@@ -83,16 +90,16 @@ class pom4:
             value_sum += team.value_total
             available_sum += team.numAvailableTasks
             completion_sum += team.numCompletedTasks
-            for task in team.tasks:
+            for task in team.tasksrepo:
                 if task.val.visible:
                     total_tasks += 1
             
-            for task in team.tasks:
+            for task in team.tasksrepo:
                 if task.val.done == True:
                     god_cost_sum += task.val.cost
                     god_value_sum += task.val.value
                     
-        #print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
+        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
         if cost_sum == 0: our_frontier = 0.0
         else: our_frontier =     value_sum /     cost_sum
         

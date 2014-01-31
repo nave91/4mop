@@ -31,14 +31,14 @@ class Team(object):
         self.numAvailableTasks = 0
         self.numCompletedTasks = 0
         self.budget = 0
-        self.tasks = []
+        self.tasksrepo = []
         self.sprint = Sprint()
         self.task_cost_total = 0
 
     def getsprint(self,sprint):
         self.sprint = sprint
         for userstory in sprint.us:
-            self.tasks.append(userstory)
+            self.tasksrepo.append(userstory)
     
     def getnewsprint(self, pom4_teams, sprints):
         index = pom4_teams.index
@@ -49,7 +49,6 @@ class Team(object):
 
     def TotalCost(self):
         self.task_cost_total += self.sprint.cost
-        #print self.task_cost_total
         return self.task_cost_total
     
     def setPolicy(self, policyInt):
@@ -58,13 +57,10 @@ class Team(object):
     def markTasksVisible(self):
         if (self.visible > 1.0): self.visible = 1.0
         self.sprint.markTasksVisible(self.visible)
-        for task in self.tasks:
-            task.val.visible = True
-        
+    
     def updateBudget(team, numShuffles):
         totalCost = team.TotalCost()
         team.budget += (totalCost/numShuffles)
-        #print "Total Budget:",team.budget
         
     def collectAvailableTasks(team, userstories):
         team.availableTasks = []
@@ -96,6 +92,7 @@ class Team(object):
     def executeAvailableTasks(team): 
         for userstory in team.availableTasks:
             if (team.budget - userstory.val.cost) >= 0:
+                print "##Executing"
                 team.budget -= userstory.val.cost
                 team.cost_total  += userstory.val.cost
                 team.value_total += userstory.val.value
@@ -104,6 +101,7 @@ class Team(object):
                 
     def discoverNewTasks(team):
         team.known += nextTime(team.decisions.dynamism/10.0)
+        
 
     def updateTasks(team):
         #Adjust values
