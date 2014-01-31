@@ -66,8 +66,8 @@ class pom4_teams:
         
         #Print Out of Teams & Requirements
           
-        for i,team in enumerate(p4t.teams): 
+        """for i,team in enumerate(p4t.teams): 
             print "___________________TEAM #" + str(i) + "______________________"
             for e,us in enumerate(team.tasks):
-                print "> USRSTORY #" + str(e) + ": " + str(us)
+                print "> USRSTORY #" + str(e) + ": " + str(us)"""
         

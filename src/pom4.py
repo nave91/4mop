@@ -92,7 +92,7 @@ class pom4:
                     god_cost_sum += task.val.cost
                     god_value_sum += task.val.value
                     
-        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
+        #print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
         if cost_sum == 0: our_frontier = 0.0
         else: our_frontier =     value_sum /     cost_sum
         
