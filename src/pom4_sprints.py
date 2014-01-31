@@ -3,7 +3,7 @@ from pom4_sprint import *
 """#################################################################
    #### 
    #### -@author: Naveen Kumar Lekkalapudi
-   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: POM4 Sprints Collection Module
    #### -@note: This work is done in affilication with  
    #### -@note: West Virginia University
    #### -@contact: nalekkalapudi@mix.wvu.edu
@@ -27,21 +27,18 @@ class pom4_sprints(object):
         sprints.tasks = []
         
         #Number of tasks
-        sprints.numoftasks = []
+        sprints.numoftasks = 0
 
         #collecting stasks from tasks
-        sprints.collecttasks(userstories.tasks)
+        sprints.collecttasks(userstories)
         
         #Building sprints
         sprints.buildsprints()
         
         #Show sprints
-        """for i in sprints.collection:
-            print i
-            print i.time
-            print i.value
-            print i.cost
-            print """""
+        #for i in sprints.collection:
+        #    print i
+        #    print ""
         
     def __repr__(sprints):
         string = ""
@@ -49,15 +46,14 @@ class pom4_sprints(object):
             string += (str(i)+"\n######")
         return string
     
-    def collecttasks(sprints,tasks):
-        sprints.tasks = tasks
-        sprints.numoftasks = len(tasks)
+    def collecttasks(sprints,userstories):
+        sprints.tasks = userstories.tasks
+        sprints.numoftasks = userstories.count
 
     def addsprint(sprints,Sprint):
         sprints.collection.append(Sprint)
-        sprints.numofsprints = len(sprints.collection)
-        
-    
+        sprints.numofsprints = len(sprints.collection)        
+
     def buildsprints(sprints):
         length = len(sprints.tasks)
         i=0
@@ -74,8 +70,6 @@ class pom4_sprints(object):
             i += 1
         sprints.addsprint(sprint)
         
-    
-    
     def func_name(stasks,item,alist):
         if stasks:
             item = list.pop(0)

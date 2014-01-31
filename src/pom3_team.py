@@ -32,7 +32,6 @@ class Team(object):
         total = 0
         for task in self.tasks:
             total+= task.val.cost
-        #print total
         return total
     
     def setPolicy(self, policyInt):

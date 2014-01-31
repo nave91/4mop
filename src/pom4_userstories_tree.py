@@ -31,7 +31,7 @@ class Userstory(object):
         self.visible = False
         
     def __repr__(self): 
-        return "(User Story. Cost: " + str(self.cost) + ", Value: " + str(self.value) + ", Estimate: " + str(self.estimate) + ")"
+        return ">(User Story. Done? " + str(self.done) + ",Cost: " + str(self.cost) + ",Value: " + str(self.value) + ",Est: " + str(self.estimate) + ")"
 
 class userstories_node(object):
     def __init__(self, v, k, p=None, c=[], l=0):

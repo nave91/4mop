@@ -4,7 +4,7 @@ import math
 """#################################################################
    #### 
    #### -@author: Naveen Kumar Lekkalapudi
-   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: POM4 Teams (collection) Management Module
    #### -@note: This work is done in affilication with  
    #### -@note: West Virginia University
    #### -@contact: nalekkalapudi@mix.wvu.edu
@@ -24,6 +24,7 @@ class pom4_teams:
 
         # Build Each Team
         total_size = 0
+
         while (total_size < sprints.numoftasks):
             #specific sized teams
             p4t.teams.append(Team(decisions))
@@ -52,15 +53,21 @@ class pom4_teams:
             team.beta = numBetas
             team.gamma = numGammas
             team.power = team.alpha + 1.22*team.beta + 1.6*team.gamma
-            team.sprint.cost += team.sprint.cost * ((numAlphas + 1.22*numBetas + 1.6*numGammas)/100.0)
-
-            team.sprint.cost = team.sprint.cost * (team.decisions.criticality_modifier ** team.decisions.criticality)
             
+            for task in team.sprint.us:
+                task.val.cost += task.val.cost * ((numAlphas + 1.22*numBetas + 1.6*numGammas)/100.0)
+                
+                #apply efect of criticality 
+                task.val.cost = task.val.cost * (team.decisions.criticality_modifier ** team.decisions.criticality)
+
+            #Update sprints too
+            team.sprint.updatesprint()
+
         
         #Print Out of Teams & Requirements
           
-        """for i,team in enumerate(p4t.teams): 
+        for i,team in enumerate(p4t.teams): 
             print "___________________TEAM #" + str(i) + "______________________"
-            for e,us in enumerate(team.sprint.us):
-                print "> USRSTORY #" + str(e) + ": " + str(us)"""
+            for e,us in enumerate(team.tasks):
+                print "> USRSTORY #" + str(e) + ": " + str(us)
         

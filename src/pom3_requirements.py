@@ -40,6 +40,10 @@ class pom3_requirements:
             requirements.recursive_dep_adder(requirements.heap.tree[i], i, 1)        
         #linearize the list
         requirements.tasks = requirements.heap.traverse()
+        
+        #TEsting
+        #for i in requirements.tasks:
+        #    print i
 
     def add_children(self, num, parent, level):
         for c in range(num):

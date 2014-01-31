@@ -6,7 +6,7 @@ import random
 """#################################################################
    #### 
    #### -@author: Naveen Kumar Lekkalapudi
-   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: POM4 Simulation Main Module
    #### -@note: This work is done in affilication with  
    #### -@note: West Virginia University
    #### -@contact: nalekkalapudi@mix.wvu.edu
@@ -63,7 +63,6 @@ class pom4:
         
         
         for shufflingIteration in range(numberOfShuffles):
-            
             for team in POM4_TEAMS.teams:
                 team.updateBudget(numberOfShuffles)
                 team.collectAvailableTasks(POM4_USERSTORIES)
@@ -71,8 +70,7 @@ class pom4:
                 team.executeAvailableTasks()
                 team.discoverNewTasks()
                 team.updateTasks()
-                team.getnewsprint(POM4_TEAMS,POM4_SPRINTS)                
-
+                team.getnewsprint(POM4_TEAMS,POM4_SPRINTS)
 
 
         # # # # # # # # # # # # #
@@ -94,7 +92,7 @@ class pom4:
                     god_cost_sum += task.val.cost
                     god_value_sum += task.val.value
                     
-        #print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
+        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
         if cost_sum == 0: our_frontier = 0.0
         else: our_frontier =     value_sum /     cost_sum
         

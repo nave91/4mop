@@ -4,7 +4,7 @@ import random
 """#################################################################
    #### 
    #### -@author: Naveen Kumar Lekkalapudi
-   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: POM4 User Stories Heap Module
    #### -@note: This work is done in affilication with  
    #### -@note: West Virginia University
    #### -@contact: nalekkalapudi@mix.wvu.edu
@@ -49,7 +49,7 @@ class pom4_userstories:
         
         #testing
         #for i in userstories.tasks:
-        #    print i.val.estimate
+        #    print i
 
 
     def add_children(self, num, parent, level):

@@ -52,7 +52,6 @@ class pom3:
         
         
         for shufflingIteration in range(numberOfShuffles):
-            
             for team in POM3_TEAMS.teams:
                 team.updateBudget(numberOfShuffles)
                 team.collectAvailableTasks(POM3_REQUIREMENTS)
@@ -60,6 +59,8 @@ class pom3:
                 team.executeAvailableTasks()
                 team.discoverNewTasks()
                 team.updateTasks()
+
+
             
         # # # # # # # # # # # # #
         # 4) Objective Scoring  #
@@ -89,7 +90,7 @@ class pom3:
         if god_frontier == 0.0: score = 0.0
         else: score        =  our_frontier / god_frontier
         
-        #print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
+        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
         if completion_sum == 0: cost = 0
         else: cost = cost_sum/completion_sum
         

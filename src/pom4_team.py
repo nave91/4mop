@@ -4,7 +4,7 @@ from pom4_sprints import *
 """#################################################################
    #### 
    #### -@author: Naveen Kumar Lekkalapudi
-   #### -@note: POM4 User Stories Requirements Tree Module
+   #### -@note: POM4 Team Management Module
    #### -@note: This work is done in affilication with  
    #### -@note: West Virginia University
    #### -@contact: nalekkalapudi@mix.wvu.edu
@@ -101,7 +101,6 @@ class Team(object):
                 team.value_total += userstory.val.value
                 userstory.val.done = True
                 team.numCompletedTasks += 1
-                team.tasks.append(userstory)
                 
     def discoverNewTasks(team):
         team.known += nextTime(team.decisions.dynamism/10.0)
