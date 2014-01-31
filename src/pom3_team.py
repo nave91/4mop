@@ -38,6 +38,7 @@ class Team(object):
         self.plan = policyInt
         
     def markTasksVisible(self):
+        if self.visible > 1: self.visible = 1
         for i in range((int)(self.visible*len(self.tasks))):
             self.tasks[i].val.visible = True        
         
@@ -82,7 +83,8 @@ class Team(object):
                 team.numCompletedTasks += 1
                 
     def discoverNewTasks(team):
-        team.known += nextTime(team.decisions.dynamism/10.0)
+        team.visible += nextTime(team.decisions.dynamism/10.0)
+        team.markTasksVisible()
 
     def updateTasks(team):
         #Adjust values

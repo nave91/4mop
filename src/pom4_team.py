@@ -99,8 +99,8 @@ class Team(object):
                 team.numCompletedTasks += 1
                 
     def discoverNewTasks(team):
-        team.known += nextTime(team.decisions.dynamism/10.0)
-        
+        team.visible += nextTime(team.decisions.dynamism/10.0)
+        team.markTasksVisible()
 
     def updateTasks(team):
         #Adjust values
