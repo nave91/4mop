@@ -15,7 +15,7 @@ import math
    ##################################################################"""
 
 class pom4_teams:
-    def __init__(p4t, sprints, decisions):
+    def __init__(p4t, userstories, decisions):
         p4t.teams = []
         p4t.decisions = decisions
         
@@ -25,15 +25,23 @@ class pom4_teams:
         # Build Each Team
         total_size = 0
 
-        while (total_size < sprints.numoftasks):
+        while (total_size < userstories.count):
             #specific sized teams
             p4t.teams.append(Team(decisions))
             total_size += decisions.team_size
-        
-        #Assign initial tasks to each team
+
+        # Assign Initial Tasks to Each Team
+        begin = 0
         for team in p4t.teams:
-            team.getsprint(sprints.collection[p4t.index])
-            p4t.index += 1
+            percent = (float)(team.team_size) / (float)(total_size)
+            end = (int)(begin+math.ceil(percent*len(userstories.tasks))-1)
+            for k in range(begin, end):
+                team.tasksrepo.append(userstories.tasks[k])
+            begin = end
+        if ((end) < len(userstories.tasks)):
+            for i in range(len(userstories.tasks) - (end)):
+                p4t.teams[len(p4t.teams)-1].tasksrepo.append(userstories.tasks[begin+i])
+        
         
         # Mark Initial Visibility of Tasks for Each Team
         for team in p4t.teams:
@@ -54,20 +62,18 @@ class pom4_teams:
             team.gamma = numGammas
             team.power = team.alpha + 1.22*team.beta + 1.6*team.gamma
             
-            for task in team.sprint.us:
+            for task in team.tasksrepo:
                 task.val.cost += task.val.cost * ((numAlphas + 1.22*numBetas + 1.6*numGammas)/100.0)
                 
                 #apply efect of criticality 
                 task.val.cost = task.val.cost * (team.decisions.criticality_modifier ** team.decisions.criticality)
 
-            #Update sprints too
-            team.sprint.updatesprint()
 
         
         #Print Out of Teams & Requirements
           
         """for i,team in enumerate(p4t.teams): 
             print "___________________TEAM #" + str(i) + "______________________"
-            for e,us in enumerate(team.tasks):
+            for e,us in enumerate(team.tasksrepo):
                 print "> USRSTORY #" + str(e) + ": " + str(us)"""
         

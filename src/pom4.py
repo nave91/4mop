@@ -45,18 +45,13 @@ class pom4:
         
         POM4_USERSTORIES = pom4_userstories(POM4_DECISIONS)
         
-        # # # # # # # # # # # 
-        # 2) Build Sprints  #
-        # # # # # # # # # # #
-        
-        POM4_SPRINTS = pom4_sprints(POM4_USERSTORIES)
-
         # # # # # # # # # # # #
         # 2) Initialize teams #
         # # # # # # # # # # # #
         
-        POM4_TEAMS = pom4_teams(POM4_SPRINTS, POM4_DECISIONS)
+        POM4_TEAMS = pom4_teams(POM4_USERSTORIES, POM4_DECISIONS)
         
+
         # # # # # # # #
         # 3) Shuffle  #
         # # # # # # # #
@@ -67,11 +62,12 @@ class pom4:
                 team.updateBudget(numberOfShuffles)
                 team.collectAvailableTasks(POM4_USERSTORIES)
                 team.applySortingStrategy()
-                team.executeAvailableTasks()
+                team.getSprint()
+                team.executeSprint()
                 team.discoverNewTasks()
                 team.updateTasks()
-                team.getnewsprint(POM4_TEAMS,POM4_SPRINTS)
-
+                
+                
 
 
         # # # # # # # # # # # # #
@@ -115,7 +111,6 @@ class pom4:
         
         
         return [cost, score, completion, idle]
-            
         
 
 
@@ -123,4 +118,3 @@ class pom4:
 p4 = pom4()
 print p4.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
 
-           
