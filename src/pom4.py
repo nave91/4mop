@@ -29,7 +29,7 @@ class pom4_decisions:
         p4d.team_size = X[8]
         
 class pom4:
-            
+    
     def simulate(p4, inputs):
     
         # # # # # # # # # # #
@@ -72,10 +72,6 @@ class pom4:
                 team.updateTasks()
                 team.getnewsprint(POM4_TEAMS,POM4_SPRINTS)
 
-        """for i,team in enumerate(POM4_TEAMS.teams): 
-            print "___________________TEAM #" + str(i) + "______________________"
-            for e,us in enumerate(team.tasksrepo):
-                print "> USRSTORY #" + str(e) + ": " + str(us)"""
 
 
         # # # # # # # # # # # # #
@@ -127,5 +123,4 @@ class pom4:
 p4 = pom4()
 print p4.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
 
- 
            
