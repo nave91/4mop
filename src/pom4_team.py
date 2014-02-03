@@ -102,7 +102,7 @@ class Team(object):
 
     
     def executeSprint(team): 
-        i = 0
+        i = -1*len(team.sprint.us)
         for task in team.sprint.us:
             if (team.budget - task.val.cost) >= 0:
                 team.budget -= task.val.cost

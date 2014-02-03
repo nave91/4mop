@@ -1,5 +1,5 @@
 from pom4_userstories import *
-from pom4_sprints import *
+#from pom4_sprints import *
 from pom4_teams import *
 import random
 
@@ -89,13 +89,14 @@ class pom4:
                     god_cost_sum += task.val.cost
                     god_value_sum += task.val.value
                     
-#        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"avaiable",available_sum,"tot tasks",total_tasks
+#        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"available",available_sum,"tot tasks",total_tasks
         if cost_sum == 0: our_frontier = 0.0
         else: our_frontier =     value_sum /     cost_sum
         
         if god_cost_sum == 0: god_frontier = 0.0
         else: god_frontier = god_value_sum / god_cost_sum
         
+#        print "god",god_frontier,"gval",god_value_sum,"gcost",god_cost_sum,"our",our_frontier
         if god_frontier == 0.0: score = 0.0
         else: score        =  our_frontier / god_frontier
         
@@ -116,5 +117,6 @@ class pom4:
 
 # Test Code 
 p4 = pom4()
-print p4.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
+for i in range(0,50):
+    print p4.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
 
