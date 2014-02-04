@@ -16,6 +16,7 @@ import sys
    ##################################################################"""
 
 MAX_VALUE = 1500
+MAX_EST_VALUE = 30
 SPRINT_LENGTH = 30
 
 class Team(object):
@@ -37,6 +38,8 @@ class Team(object):
         self.sprint = Sprint()
         self.task_cost_total = 0
         self.index = 0
+        self.team_estimate = 0
+        self.numSprints = 0
     
     def TotalCost(self):
         total = 0
@@ -65,8 +68,6 @@ class Team(object):
                 if countNotDones(userstories.heap.find_node(task.key).children) == 0:
                     if task.val.done == False:
                         team.availableTasks.append(task)
-                        team.numAvailableTasks += 1
-#        print "Number of available tasks:",team.numAvailableTasks
     
     def applySortingStrategy(team):
         
@@ -84,38 +85,39 @@ class Team(object):
         elif team.plan == 4: team.availableTasks.sort(key=lambda cv: cv.val.cost/cv.val.value)
         elif team.plan == 5: team.availableTasks.sort(key=lambda cv: cv.val.cost/cv.val.value, reverse=True)
 
-    def getSprint(self):
+    def getSprint(team):
         sprint = Sprint()
-        length = len(self.tasksrepo)
-        if self.availableTasks: 
-            out = self.buildsprint()
+        if team.availableTasks: 
+            out = team.buildsprint()
             # Sprint the list
             for i in out:
                 sprint.add_task(i)
-        self.sprint = sprint
+        team.sprint = sprint
+        team.sprint.updatesprint()
+        team.numSprints += 1
 
-    def buildsprint(self):
+    def buildsprint(team):
         #Returns list containing prioritized tasks that can be
         #completed in a sprint
-        list = self.availableTasks
-        out = [list.pop(0)] #Append first task to list
-        sum_out = self.sumOfEst(out)
+#        list = self.availableTasks
+        out = [team.availableTasks.pop(0)] #Append first task to list
+        sum_out = team.sumOfEst(out)
         #If there are no items left after popping return back
-        if not list: 
+        if not team.availableTasks: 
             return out
         while sum_out < SPRINT_LENGTH:
             #At any time if list is empty then return built out
-            if list: breakit = False
+            if team.availableTasks: breakit = False
             else: break
-            for i,j in enumerate(list):
-                sum_out = self.sumOfEst(out)
+            for i,j in enumerate(team.availableTasks):
+                sum_out = team.sumOfEst(out)
                 if (SPRINT_LENGTH - ((int)(sum_out)+j.val.estimate)) >= 0:
                     out.append(j)
-                    list.pop(i)
+                    team.availableTasks.pop(i)
                     break
-                elif i == len(list)-1:
+                elif i == len(team.availableTasks)-1:
                     breakit = True
-            sum_out = self.sumOfEst(out)
+            sum_out = team.sumOfEst(out)
             if breakit:
                 break
         return out
@@ -127,7 +129,8 @@ class Team(object):
             sumi += i.val.estimate
         return sumi
             
-    def executeSprint(team): 
+    def executeSprint(team):
+        initial_estimate = team.sprint.time
         for task in team.sprint.us:
             if (team.budget - task.val.cost) >= 0:
                 team.budget -= task.val.cost
@@ -137,6 +140,13 @@ class Team(object):
 #                team.tasksrepo[team.index + i].val.done = True
                 team.makeTasksDone(task)
                 team.numCompletedTasks += 1
+                team.updateTasksEst()
+            else:
+                team.availableTasks.append(task)
+        team.sprint.updatesprint()
+        final_estimate = team.sprint.time
+        team.team_estimate += final_estimate
+        
 
     def makeTasksDone(team,task):
         ind = team.tasksrepo.index(task)
@@ -151,6 +161,13 @@ class Team(object):
         for task in team.tasksrepo:
             change = (random.uniform(0, team.decisions.dynamism) - team.decisions.dynamism/2)*team.decisions.culture/100.0
             task.val.value += (MAX_VALUE * max(0,change))  
+    
+    def updateTasksEst(team):
+        for task in team.sprint.us:
+            change = (random.uniform(0, team.decisions.dynamism) - team.decisions.dynamism/2)*team.decisions.culture/10.0
+            #print change
+            task.val.estimate += (int)(MAX_EST_VALUE * max(0,change))  
+            
 
 def nextTime(rateParameter): return -math.log(1.0 - random.random()) / rateParameter                        
 def countNotDones(list):

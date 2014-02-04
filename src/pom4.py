@@ -75,20 +75,26 @@ class pom4:
         # # # # # # # # # # # # #
         
         cost_sum,value_sum,god_cost_sum,god_value_sum,completion_sum,available_sum,total_tasks = 0.0, 0.0, 0.0, 0.0, 0,0,0
+        total_estimate,total_noSprints = 0.0, 0.0
         for team in POM4_TEAMS.teams:
             cost_sum += team.cost_total
             value_sum += team.value_total
-            available_sum += team.numAvailableTasks
-            completion_sum += team.numCompletedTasks
+            total_estimate += team.team_estimate
+            total_noSprints += team.numSprints
             for task in team.tasksrepo:
                 if task.val.visible:
-                    total_tasks += 1
+                    team.numAvailableTasks += 1
+                total_tasks += 1
+            available_sum += team.numAvailableTasks
+            completion_sum += team.numCompletedTasks
+            
             
             for task in team.tasksrepo:
                 if task.val.done == True:
                     god_cost_sum += task.val.cost
                     god_value_sum += task.val.value
                     
+#        print "estimate",total_estimate,"no of sprints",total_noSprints, "velocity",total_estimate/total_noSprints
 #        print "cost",cost_sum,"value",value_sum,"completion",completion_sum,"available",available_sum,"tot tasks",total_tasks
         if cost_sum == 0: our_frontier = 0.0
         else: our_frontier =     value_sum /     cost_sum
@@ -109,9 +115,11 @@ class pom4:
         if total_tasks == 0: completion = 0
         else: completion = completion_sum/float(total_tasks)
         
+        if total_noSprints == 0: velocity = 0
+        else: velocity = total_estimate/total_noSprints
         
         
-        return [cost, score, completion, idle]
+        return [cost, score, completion, idle, velocity]
         
 
 

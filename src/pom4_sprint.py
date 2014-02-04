@@ -33,8 +33,11 @@ class Sprint(object):
         
     def __repr__(self):
         string = "####\n"
+        string += "{"
         for i in self.us:
-            string += (str(i.val)+"\n")
+            string += (str(i.val)+";;;")
+        string += "\nspr_val: "+str(self.value)+" spr_cost: "+str(self.cost)
+        string += "spr_time: "+str(self.time)+"}"
         return string
 
     def updatesprint(self):
