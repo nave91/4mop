@@ -86,7 +86,7 @@ class pom4_userstories:
                 rand = random.randint(1,1000)
                 odds = [15, 30, 60, 120, 240]
                 
-                if level > 5: oddsInd = 4
+                if level >= 5: oddsInd = 4
                 else: oddsInd = level
                 
                 if rand <= odds[oddsInd]:
