@@ -1,5 +1,6 @@
 import math, random
 from pom4_sprints import *
+import sys
 
 """#################################################################
    #### 
@@ -15,6 +16,7 @@ from pom4_sprints import *
    ##################################################################"""
 
 MAX_VALUE = 1500
+SPRINT_LENGTH = 30
 
 class Team(object):
     def __init__(self, decisions):
@@ -85,33 +87,61 @@ class Team(object):
     def getSprint(self):
         sprint = Sprint()
         length = len(self.tasksrepo)
-        #Get 3 tasks from taskrepo and add them to team's sprint
-        if length > 3:
-            for i in range(0,3):
-                if self.index < length: 
-                    sprint.add_task(self.tasksrepo[self.index])
-                self.index += 1
-        else:
-            for i in range(length):
-                if self.index < length: 
-                    sprint.add_task(self.tasksrepo[self.index])
-                self.index += 1
-        #Assign Sprint
-        #print sprint
+        if self.availableTasks: 
+            out = self.buildsprint()
+            # Sprint the list
+            for i in out:
+                sprint.add_task(i)
         self.sprint = sprint
 
-    
+    def buildsprint(self):
+        #Returns list containing prioritized tasks that can be
+        #completed in a sprint
+        list = self.availableTasks
+        out = [list.pop(0)] #Append first task to list
+        sum_out = self.sumOfEst(out)
+        #If there are no items left after popping return back
+        if not list: 
+            return out
+        while sum_out < SPRINT_LENGTH:
+            #At any time if list is empty then return built out
+            if list: breakit = False
+            else: break
+            for i,j in enumerate(list):
+                sum_out = self.sumOfEst(out)
+                if (SPRINT_LENGTH - ((int)(sum_out)+j.val.estimate)) >= 0:
+                    out.append(j)
+                    list.pop(i)
+                    break
+                elif i == len(list)-1:
+                    breakit = True
+            sum_out = self.sumOfEst(out)
+            if breakit:
+                break
+        return out
+ 
+    def sumOfEst(team,out):
+        #returns sum of estimates
+        sumi = 0
+        for i in out:
+            sumi += i.val.estimate
+        return sumi
+            
     def executeSprint(team): 
-        i = -1*len(team.sprint.us)
         for task in team.sprint.us:
             if (team.budget - task.val.cost) >= 0:
                 team.budget -= task.val.cost
                 team.cost_total  += task.val.cost
                 team.value_total += task.val.value
                 task.val.done = True
-                team.tasksrepo[team.index + i].val.done = True
+#                team.tasksrepo[team.index + i].val.done = True
+                team.makeTasksDone(task)
                 team.numCompletedTasks += 1
-            i += 1
+
+    def makeTasksDone(team,task):
+        ind = team.tasksrepo.index(task)
+        team.tasksrepo[ind].val.done =True
+
     def discoverNewTasks(team):
         team.visible += nextTime(team.decisions.dynamism/10.0)
         team.markTasksVisible()
