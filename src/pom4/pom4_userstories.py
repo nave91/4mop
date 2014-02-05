@@ -1,5 +1,5 @@
 from pom4_userstories_tree import *
-import random
+import pom4_lib
 
 """#################################################################
    #### 
@@ -14,9 +14,9 @@ import random
    ####
    ##################################################################"""
 
-def random_cost(): return random.randint(1, 100)
-def random_value(): return random.randint(1, 100)
-def random_estimate(): return random.randint(1, 30) #upto sprint length
+def random_cost(): return pom4_lib.random.randint(1, 100)
+def random_value(): return pom4_lib.random.randint(1, 100)
+def random_estimate(): return pom4_lib.random.randint(1, 30) #upto sprint length
 
 class pom4_userstories:
     
@@ -33,13 +33,13 @@ class pom4_userstories:
             
         #Add dependencies
         for i in range(userstories.count):
-            rand = random.randint(1,1000)
+            rand = pom4_lib.random.randint(1,1000)
             if (rand <=15):
                 #pick a userstory at this level, of the next base tree
                 level = 0
                 if ((i+1) < len(userstories.heap.tree)):
                     req_node = userstories.heap.tree[i+1]
-                    adderDie = random.randint(1,100)
+                    adderDie = pom4_lib.random.randint(1,100)
                     if adderDie <= decisions.interdependency: 
                         userstories.add_dependency(userstories.heap.tree[i], req_node)
             userstories.recursive_dep_adder(userstories.heap.tree[i], i, 1)
@@ -71,7 +71,7 @@ class pom4_userstories:
         
     def recursive_adder(self, parent, level):
         #Random exponential chance that we add child node:
-        rand = random.randint(1,1000)
+        rand = pom4_lib.random.randint(1,1000)
         odds = [15, 30, 60, 120, 240]
         
         for numChildren,chance in enumerate(odds):
@@ -83,7 +83,7 @@ class pom4_userstories:
         
         if len(parent.children) > 0 and ((rootIndex+1) < len(self.heap.tree)):
             if level <= self.heap.tree[rootIndex+1].max_depth():
-                rand = random.randint(1,1000)
+                rand = pom4_lib.random.randint(1,1000)
                 odds = [15, 30, 60, 120, 240]
                 
                 if level >= 5: oddsInd = 4
@@ -91,15 +91,15 @@ class pom4_userstories:
                 
                 if rand <= odds[oddsInd]:
                     #pick a random child at this level of this root
-                    rand = random.randint(0,len(parent.children)-1)
+                    rand = pom4_lib.random.randint(0,len(parent.children)-1)
                     randChild = parent.children[rand]
                     
                     #pick a random node at the level of the next root
                     levelNodes = self.heap.get_level(self.heap.tree[rootIndex+1], level)
-                    rand = random.randint(0, len(levelNodes)-1)
+                    rand = pom4_lib.random.randint(0, len(levelNodes)-1)
                     
                     #add dependency from randChild to levelNodes[rand]
-                    adderDie = random.randint(1,100)
+                    adderDie = pom4_lib.random.randint(1,100)
                     if adderDie <= self.decisions.interdependency: 
                         self.add_dependency(randChild, levelNodes[rand])
                 for child in parent.children:

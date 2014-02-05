@@ -1,7 +1,6 @@
 from pom4_userstories import *
-#from pom4_sprints import *
 from pom4_teams import *
-import random
+
 
 """#################################################################
    #### 

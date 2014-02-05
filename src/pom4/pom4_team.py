@@ -1,6 +1,6 @@
-import math, random
+import math
+from pom4_lib import *
 from pom4_sprints import *
-import sys
 
 """#################################################################
    #### 
