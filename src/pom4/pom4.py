@@ -26,6 +26,7 @@ class pom4_decisions:
         p4d.size = int(X[6])
         p4d.plan = int(X[7])
         p4d.team_size = X[8]
+        p4d.sprint_length = X[9]
         
 class pom4:
     
@@ -124,6 +125,6 @@ class pom4:
 
 # Test Code 
 p4 = pom4()
-for i in range(0,50):
-    print p4.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20])
+#for i in range(0,50):
+print p4.simulate([0.20, 1.26, 8, 0.95, 100, 10, 2, 5, 20, 30])
 

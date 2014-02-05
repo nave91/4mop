@@ -13,10 +13,12 @@ import pom4_lib
    #### -@reference: POM3
    ####
    ##################################################################"""
+MAX_COST = 100
+MIN_COST = 1
 
-def random_cost(): return pom4_lib.random.randint(1, 100)
+def random_cost(): return pom4_lib.random.randint(MIN_COST, MAX_COST)
 def random_value(): return pom4_lib.random.randint(1, 100)
-def random_estimate(): return pom4_lib.random.randint(1, 30) #upto sprint length
+def random_estimate(cost, SPRINT_LENGTH): return pom4_lib.random_estimate(MIN_COST, cost, MAX_COST, SPRINT_LENGTH) 
 
 class pom4_userstories:
     
@@ -26,7 +28,8 @@ class pom4_userstories:
         userstories.decisions = decisions
         
         for i in range(userstories.count):
-            userstories.heap.add_root(Userstory((decisions.size+1)*random_cost(), random_value(), random_estimate()), 'Base UsrStry #' + str('%.3d'%(i+1)))
+            rnd_cost = (decisions.size+1)*random_cost()
+            userstories.heap.add_root(Userstory(rnd_cost, random_value(), random_estimate(rnd_cost,decisions.sprint_length)), 'Base UsrStry #' + str('%.3d'%(i+1)))
             
             parent = userstories.heap.tree[i]
             userstories.recursive_adder(parent, 1)
@@ -54,7 +57,8 @@ class pom4_userstories:
 
     def add_children(self, num, parent, level):
         for c in range(num):
-            parent.add_child(Userstory(random_cost(), random_value(), random_estimate()),
+            rnd_cost = random_cost()
+            parent.add_child(Userstory(rnd_cost, random_value(), random_estimate(rnd_cost,self.decisions.sprint_length)),
                              "+"*level + 'Child-' + parent.key[0]
                              + parent.key[len(parent.key)-3]
                              + parent.key[len(parent.key)-2]
